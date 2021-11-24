@@ -1,6 +1,6 @@
 const TelegramApi = require('node-telegram-bot-api')
-
-const token = '2102091676:AAHikAGQpEkNKaPnrwktJ4bck35HXTQNOlM'
+const fs = require('fs')
+const token = fs.readFileSync('token.txt')
 const bot = new TelegramApi(token, {polling: true})
 const chats = {}
 const {gameOptions, againOptions} = require('./options')
@@ -9,10 +9,14 @@ const startGame = async (chatId) => {
     chats[chatId] = Math.floor(Math.random() * 10);
     await bot.sendMessage(chatId, `Отгадывай!`, gameOptions);
 }
+const getNews = async (chatId) => {
+
+}
 const start = () => {
     bot.setMyCommands([
         {command: '/info', description: 'Информация о боте'},
-        {command: '/game', description: 'Угадай число'}
+        {command: '/game', description: 'Угадай число'},
+        {command: '/news', description: 'Новость из NewsAPI'}
     ])
 
     bot.on('message', async msg  => {
@@ -21,10 +25,13 @@ const start = () => {
         const firstName = msg.from.first_name;
 
         if (text === '/info') {
-            return bot.sendMessage(chatId, `Бот еще разрабатывается, спасибо за участие в тестировании, ${firstName}!`);
+            return bot.sendMessage(chatId, `Бот еще разрабатывается, спасибо за участие в тестировании, ${firstName}!`)
         }
         if (text === '/game') {
             return startGame(chatId)
+        }
+        if (text === '/news') {
+            return getNews()
         }
         return bot.sendMessage(chatId, `Я тебя не понял, но в будущем буду пересылать на админа`);
 
