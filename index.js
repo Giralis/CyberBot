@@ -9,14 +9,11 @@ const startGame = async (chatId) => {
     chats[chatId] = Math.floor(Math.random() * 10);
     await bot.sendMessage(chatId, `Отгадывай!`, gameOptions);
 }
-const getNews = async (chatId) => {
 
-}
 const start = () => {
     bot.setMyCommands([
         {command: '/info', description: 'Информация о боте'},
-        {command: '/game', description: 'Угадай число'},
-        {command: '/news', description: 'Новость из NewsAPI'}
+        {command: '/game', description: 'Угадай число'}
     ])
 
     bot.on('message', async msg  => {
@@ -29,9 +26,6 @@ const start = () => {
         }
         if (text === '/game') {
             return startGame(chatId)
-        }
-        if (text === '/news') {
-            return getNews()
         }
         return bot.sendMessage(chatId, `Я тебя не понял, но в будущем буду пересылать на админа`);
 
